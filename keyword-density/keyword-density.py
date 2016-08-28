@@ -1,6 +1,7 @@
 import json
 import re
 import matplotlib.pyplot as plt
+import operator
 
 def get_keywords(path):
 	with open(path,'r') as f:
@@ -78,7 +79,8 @@ def calculate_set_data(data, sets, keywords):
 	return set_data
 
 def plot_set(set_data):
-	labels = sorted(set_data['keywords'])
+	sorted_keywords = sorted(x.items(), key=operator.itemgetter(1))
+	labels = [x[0] for x in sorted_keywords]
 	sizes = [set_data['keywords'][x] for x in labels]
 	#sizes = [float(x/set_data['EXO']['keywords']) for x in sizes]
 	rects = plt.bar([x+.25 for x in range(len(labels))], sizes, 0.5, color='black')
