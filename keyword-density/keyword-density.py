@@ -107,7 +107,7 @@ def main():
 	#						Total Keywords: INT
 	#						Cards: INT
 	set_data = calculate_set_data(data, sets, keywords)
-	plot_set(set_data['EXO'],'EXO')
+	plot_set(set_data['EXO'])
 
 if __name__ == "__main__":
 	main()
