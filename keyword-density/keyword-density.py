@@ -47,8 +47,9 @@ def count_keywords(text,keywords):
 def calculate_set_data(data, sets, keywords):
 	set_data = {}
 	for st in sets:
-		set_data[st] = {'name':None, 'keywords':{}, 'words':0, 'total_keywords':0, 'cards':0}
+		set_data[st] = {'name':None, 'code':None, 'keywords':{}, 'words':0, 'total_keywords':0, 'cards':0}
 		set_data[st]['name'] = data[st]['name']
+		set_data[st]['code'] = data[st]['code']
 		for card in data[st]['cards']:
 			if 'text' in card:
 				txt = clean_text(card['text']).lower()
@@ -76,13 +77,17 @@ def calculate_set_data(data, sets, keywords):
 	'''
 	return set_data
 
-def plot_set(set_data, name):
+def plot_set(set_data):
 	labels = [x.replace(' ','\n') for x in set_data['EXO']['keywords'].keys()]
 	sizes = [set_data['keywords'][x] for x in labels]
 	#sizes = [float(x/set_data['EXO']['keywords']) for x in sizes]
 	rects = plt.bar([x+.25 for x in range(len(labels))], sizes, 0.5, color='black')
 	plt.xticks(range(len(labels))+.25, tuple(labels))
-	plt.plot([0, plt.gca().get_xlim()[1]], [set_data['total_keywords'],set_data['total_kewyords']],'k--')
+	plt.plot([0, plt.gca().get_xlim()[1]], [set_data['total_keywords'],set_data['total_kewyords']],'k--',label='Total Keywords')
+	# Plot text
+	plt.title('Keyword Density')
+	plt.xlabel('Keyword')
+	plt.ylabel('Occurrences')
 	plt.show()
 
 def main():
