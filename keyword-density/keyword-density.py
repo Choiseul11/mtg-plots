@@ -78,12 +78,12 @@ def calculate_set_data(data, sets, keywords):
 	return set_data
 
 def plot_set(set_data):
-	labels = [x.replace(' ','\n') for x in set_data['EXO']['keywords'].keys()]
+	labels = set_data['keywords'].keys()
 	sizes = [set_data['keywords'][x] for x in labels]
 	#sizes = [float(x/set_data['EXO']['keywords']) for x in sizes]
 	rects = plt.bar([x+.25 for x in range(len(labels))], sizes, 0.5, color='black')
-	plt.xticks(range(len(labels))+.25, tuple(labels))
-	plt.plot([0, plt.gca().get_xlim()[1]], [set_data['total_keywords'],set_data['total_kewyords']],'k--',label='Total Keywords')
+	plt.xticks([x+.5 for x in range(len(labels))], labels,rotation='vertical')
+	plt.plot([0, plt.gca().get_xlim()[1]], [set_data['total_keywords'],set_data['total_keywords']],'k--',label='Total Keywords')
 	# Plot text
 	plt.title('Keyword Density')
 	plt.xlabel('Keyword')
