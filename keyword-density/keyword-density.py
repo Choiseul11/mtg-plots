@@ -82,8 +82,8 @@ def label_bars(rects, total):
 	for rect in rects:
 		height = rect.get_height()
 		pct = float(float(height)/total)*100
-		plt.text(rect.get_x(), 1.05*height+3, '%d' % int(height))
-		plt.text(rect.get_x(), 1.05*height, "%.0f" % pct + "%")
+		plt.text(rect.get_x(), 1.03*height+1, '%d' % int(height))
+		plt.text(rect.get_x(), 1.03*height, "%.0f" % pct + "%")
 
 def plot_set(set_data):
 	sorted_keywords = sorted(set_data['keywords'].items(), key=operator.itemgetter(1))
@@ -94,12 +94,17 @@ def plot_set(set_data):
 	rects = plt.bar([x+.25 for x in range(len(labels))], sizes, 0.5, color='black')
 	plt.xticks([x+.5 for x in range(len(labels))], labels,rotation='vertical')
 	# Plot total kewyords line
-	plt.plot([0, plt.gca().get_xlim()[1]], [set_data['total_keywords'],set_data['total_keywords']],'k--',label='Total Keywords: '+str(set_data['total_keywords']))
+	#plt.plot([0, plt.gca().get_xlim()[1]], [set_data['total_keywords'],set_data['total_keywords']],'k--',label='Total Keywords: '+str(set_data['total_keywords']))
 	# Plot text/labels
 	plt.title('Keyword Density')
 	plt.xlabel('Keyword')
 	plt.ylabel('Occurrences')
-	plt.legend()
+	plt.text(0.75, 0.79, 'Total Unique Keywords: ' + str(len(set_data['keywords'])), ha='center', va='center', transform=plt.gca().transAxes)
+	plt.text(0.75, 0.75, 'Total Keyword Occurences: ' + str(set_data['total_keywords']), ha='center', va='center', transform=plt.gca().transAxes)
+	plt.text(0.75, 0.71, 'Total Words: ' + str(set_data['words']), ha='center', va='center', transform=plt.gca().transAxes)
+	plt.text(0.75, 0.67, 'Avg. KW/Card: %.1f' % float(float(set_data['total_keywords'])/set_data['cards']), ha='center', va='center', transform=plt.gca().transAxes)
+	plt.text(0.75, 0.63, 'Most Common Keyword: ' + sorted_keywords[-1][0], ha='center', va='center', transform=plt.gca().transAxes)
+	plt.text(0.75, 0.59, 'Least Common Keyword: ' + sorted_keywords[0][0], ha='center', va='center', transform=plt.gca().transAxes)
 	# Numbers above bars
 	label_bars(rects, set_data['total_keywords'])
 	plt.show()
@@ -121,7 +126,7 @@ def main():
 	#						Total Keywords: INT
 	#						Cards: INT
 	set_data = calculate_set_data(data, sets, keywords)
-	plot_set(set_data['EXO'])
+	plot_set(set_data['M15'])
 
 if __name__ == "__main__":
 	main()
