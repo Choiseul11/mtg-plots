@@ -31,19 +31,18 @@ class CardData():
 	def has_text(self):
 		return not self.text == None
 
-	def text(self, clean=False):
+	def get_text(self, clean=False):
 		if not self.has_text():
 			return ""
-		text = self.data['text']
 		if clean:
-			return self.clean_text(text)
+			return self.clean_text(self.text)
 		else:
-			return text
+			return self.text
 
 	def wordcount(self, clean=False):
 		if not self.has_text():
 			return 0
-		return len(get_text(clean=clean))
+		return len(self.get_text(clean=clean))
 
 	def name(self):
 		return self.name
@@ -80,7 +79,7 @@ class CardData():
 		Invokes the above three text functions
 		Params: String text - text to be changed
 		'''
-		clean_text = remove_reminder_text(
-						remove_unicode_chars(
-							remove_numeric_chars(text)))
+		clean_text = self.remove_reminder_text(
+						self.remove_unicode_chars(
+							self.remove_numeric_chars(text)))
 		return clean_text.lower()

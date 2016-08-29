@@ -21,7 +21,7 @@ def calculate_set_data(data, sets, keywords):
 			cd = CardData(card)
 			# Skip card if it has no rules text
 			if cd.has_text():
-				txt = cd.text(clean=True)
+				txt = cd.get_text(clean=True)
 				# Add all words on current card to total word count
 				set_data[st]['words'] += cd.wordcount(clean=True)
 				# Get individual keyword counts from rules text
@@ -84,6 +84,7 @@ def main():
 	# Getting data from files, specifically: keywords, card JSON data
 	# NOTE: if you place these files somewhere different, you will need to change these paths
 	md = MagicData('../common/AllSets-x.json')
+	md.load_json()
 	md.load_keywords('keywords.txt')
 	# Variables for storing relevant set codes
 	md.load_sets('../common/core_sets.txt')
