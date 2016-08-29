@@ -2,9 +2,9 @@ import json
 import re
 import matplotlib.pyplot as plt
 import operator
-from mtgplots import MagicData as MagicData 
-from mtgplots import CardData as CardData
-from mtgplots import SetData as SetData
+from mtgplots import MagicData
+from mtgplots import CardData
+from mtgplots import SetData
 
 def calculate_set_data(data, sets, keywords):
 	'''
@@ -15,10 +15,10 @@ def calculate_set_data(data, sets, keywords):
 	'''
 	set_data = {}
 	for st in sets:
-		sd = SetData(data[st])
+		sd = SetData.SetData(data[st])
 		set_data[st] = {'keywords':{}, 'words':0, 'total_keywords':0}
 		for card in sd.get_cards():
-			cd = CardData(card)
+			cd = CardData.CardData(card)
 			# Skip card if it has no rules text
 			if cd.has_text():
 				txt = cd.text(clean=True)
@@ -83,10 +83,11 @@ def plot_set(set_data):
 def main():
 	# Getting data from files, specifically: keywords, card JSON data
 	# NOTE: if you place these files somewhere different, you will need to change these paths
-	md = MagicData('../common/AllSets-x.json')
+	md = MagicData.MagicData('../common/AllSets-x.json')
 	md.load_keywords('keywords.txt')
 	# Variables for storing relevant set codes
-	md.load_sets('../common/core_sets.txt') + get_sets('../common/expansion_sets.txt')
+	md.load_sets('../common/core_sets.txt')
+	md.load_sets('../common/expansion_sets.txt')
 
 	# Variables for storing processed data from each card/set
 	# Structure: Dict - Set:
