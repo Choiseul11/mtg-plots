@@ -154,8 +154,8 @@ def plot_set(set_data):
 	plt.text(0.75, 0.75, 'Total Keyword Occurences: ' + str(set_data['total_keywords']), ha='center', va='center', transform=plt.gca().transAxes)
 	plt.text(0.75, 0.71, 'Total Words: ' + str(set_data['words']), ha='center', va='center', transform=plt.gca().transAxes)
 	plt.text(0.75, 0.67, 'Avg. KW/Card: %.1f' % float(float(set_data['total_keywords'])/set_data['cards']), ha='center', va='center', transform=plt.gca().transAxes)
-	plt.text(0.75, 0.63, 'Most Common Keyword: ' + sorted_keywords[-1][0], ha='center', va='center', transform=plt.gca().transAxes)
-	plt.text(0.75, 0.59, 'Least Common Keyword: ' + sorted_keywords[0][0], ha='center', va='center', transform=plt.gca().transAxes)
+	plt.text(0.75, 0.63, 'Most Common Keyword: ' + sorted_keywords[0][0], ha='center', va='center', transform=plt.gca().transAxes)
+	plt.text(0.75, 0.59, 'Least Common Keyword: ' + sorted_keywords[-1][0], ha='center', va='center', transform=plt.gca().transAxes)
 	plt.text(0.75, 0.55, 'Total Cards: ' + str(set_data['cards']), ha='center', va='center', transform=plt.gca().transAxes)
 	# Numbers above bars
 	label_bars(rects)
