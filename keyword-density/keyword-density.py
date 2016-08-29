@@ -66,7 +66,7 @@ def clean_text(text):
 						remove_numeric_chars(text)))
 	return clean_text
 
-def count_keywords(text,keywords):
+def count_keywords(text,name,keywords):
 	'''
 	Counts all occurrences of each keyword in keywords within text
 	Params: String text - text to be counted from
@@ -74,7 +74,9 @@ def count_keywords(text,keywords):
 	'''
 	kw = {}
 	for keyword in keywords:
-		if keyword in text:
+		# the 'meld' requirement here is a hack to avoid Midnight Scavengers
+		# making 'Scavenge' show up as an EMN keyword'
+		if keyword in text and keyword not in name.lower() and 'meld' not in text:
 			kw[keyword] = text.count(keyword)
 	return kw
 
@@ -90,8 +92,8 @@ def calculate_set_data(data, sets, keywords):
 		set_data[st] = {'name':None, 'code':None, 'keywords':{}, 'words':0, 'total_keywords':0, 'cards':0}
 		set_data[st]['name'] = data[st]['name']
 		set_data[st]['code'] = data[st]['code']
-		set_data[st]['cards'] += 1
 		for card in data[st]['cards']:
+			set_data[st]['cards'] += 1
 			# Skip card if it has no rules text
 			if 'text' in card:
 				txt = clean_text(card['text']).lower()
@@ -100,7 +102,7 @@ def calculate_set_data(data, sets, keywords):
 			# Add all words on current card to total word count
 			set_data[st]['words'] += len(txt)
 			# Get individual keyword counts from rules text
-			kw = count_keywords(txt, keywords)
+			kw = count_keywords(txt, card['name'], keywords)
 			# Increment per-set keyword counts from above data
 			for k in kw:
 				set_data[st]['total_keywords'] += kw[k]
@@ -137,7 +139,7 @@ def plot_set(set_data):
 	Params: Dict set_data - dictionary containing data relevant to given set
 	'''
 	# Sort keywords dict biggest to smallest
-	sorted_keywords = sorted(set_data['keywords'].items(), key=operator.itemgetter(1)).reverse()
+	sorted_keywords = sorted(set_data['keywords'].items(), key=operator.itemgetter(1), reverse=True)
 	labels = [x[0] for x in sorted_keywords]
 	sizes = [x[1] for x in sorted_keywords]
 	points = range(len(labels))
@@ -154,10 +156,11 @@ def plot_set(set_data):
 	plt.text(0.75, 0.67, 'Avg. KW/Card: %.1f' % float(float(set_data['total_keywords'])/set_data['cards']), ha='center', va='center', transform=plt.gca().transAxes)
 	plt.text(0.75, 0.63, 'Most Common Keyword: ' + sorted_keywords[-1][0], ha='center', va='center', transform=plt.gca().transAxes)
 	plt.text(0.75, 0.59, 'Least Common Keyword: ' + sorted_keywords[0][0], ha='center', va='center', transform=plt.gca().transAxes)
+	plt.text(0.75, 0.55, 'Total Cards: ' + str(set_data['cards']), ha='center', va='center', transform=plt.gca().transAxes)
 	# Numbers above bars
-	label_bars(rects, set_data['total_keywords'])
+	label_bars(rects)
 	#adjust ylim so there's space above bars
-	if plt.gca().get_ylim()[1]-sorted_keywords[-1][1] < 5:
+	if plt.gca().get_ylim()[1]-sorted_keywords[0][1] < 5:
 		plt.gca().set_ylim((0, plt.gca().get_ylim()[1]+5))
 	plt.savefig('plots/'+set_data['code']+'-keyword-density.png',bbox_inches='tight')
 	plt.clf()
