@@ -2,9 +2,9 @@ import json
 import re
 import matplotlib.pyplot as plt
 import operator
-from ... import MagicData
-from ... import CardData
-from ... import SetData
+from mtgplots import MagicData 
+from mtgplots import CardData
+from mtgplots import SetData
 
 def calculate_set_data(data, sets, keywords):
 	'''
