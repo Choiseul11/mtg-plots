@@ -82,8 +82,8 @@ def label_bars(rects, total):
 	for rect in rects:
 		height = rect.get_height()
 		pct = float(float(height)/total)*100
-		plt.text(rect.get_x(), 1.03*height+1, '%d' % int(height))
-		plt.text(rect.get_x(), 1.03*height, "%.0f" % pct + "%")
+		plt.text(rect.get_x()+rect.get_width()/4. if len(str(height))<2 else rect.get_x(), max(1.03*height,height+1), '%d' % int(height))
+		#plt.text(rect.get_x(), 1.05*height, "%.0f" % pct + "%")
 
 def plot_set(set_data):
 	sorted_keywords = sorted(set_data['keywords'].items(), key=operator.itemgetter(1))
@@ -96,7 +96,7 @@ def plot_set(set_data):
 	# Plot total kewyords line
 	#plt.plot([0, plt.gca().get_xlim()[1]], [set_data['total_keywords'],set_data['total_keywords']],'k--',label='Total Keywords: '+str(set_data['total_keywords']))
 	# Plot text/labels
-	plt.title('Keyword Density')
+	plt.title(set_data['name']+' - Keyword Density')
 	plt.xlabel('Keyword')
 	plt.ylabel('Occurrences')
 	plt.text(0.75, 0.79, 'Total Unique Keywords: ' + str(len(set_data['keywords'])), ha='center', va='center', transform=plt.gca().transAxes)
@@ -107,7 +107,12 @@ def plot_set(set_data):
 	plt.text(0.75, 0.59, 'Least Common Keyword: ' + sorted_keywords[0][0], ha='center', va='center', transform=plt.gca().transAxes)
 	# Numbers above bars
 	label_bars(rects, set_data['total_keywords'])
-	plt.show()
+	#adjust ylim
+	if plt.gca().get_ylim()[1]-sorted_keywords[-1][1] < 5:
+		plt.gca().set_ylim((0, plt.gca().get_ylim()[1]+5))
+	#fig = plt.figure()
+	plt.savefig('plots/'+set_data['code']+'-keyword-density.png',bbox_inches='tight')
+	plt.clf()
 
 def main():
 	# Getting data from files, specifically: keywords, card JSON data
@@ -126,7 +131,10 @@ def main():
 	#						Total Keywords: INT
 	#						Cards: INT
 	set_data = calculate_set_data(data, sets, keywords)
-	plot_set(set_data['M15'])
+	# Create and save figures for each set
+	for st in set_data:
+		plot_set(set_data[st])
+	
 
 if __name__ == "__main__":
 	main()

@@ -1,7 +1,6 @@
 deathtouch
 defender
 double strike
-enchant
 equip
 first strike
 flash
