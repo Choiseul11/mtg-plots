@@ -5,7 +5,10 @@ class CardData():
 	def __init__(self, data):
 		self.data = data
 		self.name = data['name'].lower()
-		self.text = data['text'].lower() if 'text' in data else self.text = None
+		if 'text' in data:
+			self.text = data['text'].lower() 
+		else:
+			self.text = None
 
 		
 	'''
@@ -21,9 +24,7 @@ class CardData():
 		for keyword in keywords:
 			# the 'meld' requirement here is a hack to avoid Midnight Scavengers
 			# making 'Scavenge' show up as an EMN keyword'
-			if keyword in self.text
-				and keyword not in self.name
-					and 'meld' not in self.text:
+			if keyword in self.text and keyword not in self.name and 'meld' not in self.text:
 				kw[keyword] = self.text.count(keyword)
 		return kw
 
