@@ -5,6 +5,7 @@ import operator
 from mtgplots.MagicData import MagicData
 from mtgplots.CardData import CardData
 from mtgplots.SetData import SetData
+from mtgplots.Grapher import Grapher
 
 def calculate_set_data(data, sets, keywords):
 	'''

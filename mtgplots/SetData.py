@@ -15,5 +15,8 @@ class SetData():
 	def num_cards(self):
 		return len(self.data['cards'])
 
-	def get_cards(self):
+	def cards(self):
 		return self.data['cards']
+	
+	def releasedate(self):
+		return self.data['releaseDate']

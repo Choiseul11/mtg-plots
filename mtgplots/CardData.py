@@ -47,6 +47,41 @@ class CardData():
 	def name(self):
 		return self.name
 
+	def has_color(self):
+		if 'colors' in self.data:
+			return True
+		return False
+
+	def colors(self):
+		if not self.has_color():
+			return None
+		color_map = {'White':'W', 'Blue':'U','Black':'B','Red':'R','Green':'G'}
+		color_symbols = []
+		for color in self.data['colors']:
+			color_symbols.append(color_map[color])
+		return ''.join(color_symbols)
+
+	def has_coloridentity(self):
+		if 'colorIdentity' in self.data:
+			return True
+		return False
+
+	def coloridentity(self):
+		if not self.has_coloridentity():
+			return None
+		return ''.join(self.data['colorIdentity'])
+
+	def types(self):
+		return ' '.join(self.data['types'])
+
+	def rarity(self):
+		return self.data['rarity']
+
+	def cmc(self):
+		if 'cmc' in self.data:
+			return self.data['cmc']
+		return 0
+
 	'''
 	Text cleanup functions
 	'''

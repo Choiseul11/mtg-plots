@@ -14,7 +14,11 @@ class MagicData():
 	'''
 	Static Data
 	'''
-
+	colorids = ['W','U','B','R','G',\
+				'WU','WB','WR','WG','UB','UR','UG','BR','BG','RG',\
+				'WUB','WUR','WUG','WBR','WBG','WRG','UBR','UBG','URG','BRG',\
+				'WUBR','WUBG','WURG','WBRG','UBRG',\
+				'WUBRG']
 	# Member variables
 	data = None
 	sets = []
@@ -52,3 +56,18 @@ class MagicData():
 			st = f.readlines()
 		self.sets += [s.strip() for s in st]
 
+	'''
+	Total Dataset Functions
+	'''
+
+	def get_all_sets(self):
+		return self.data.keys()
+
+	def get_relevant_sets(self):
+		sts = [st for st in self.data if st in self.sets]
+		return sts
+
+	def get_set(self, code):
+		if code in self.data:
+			return self.data[code]
+		return None
