@@ -3,28 +3,44 @@ class SetData():
 
 	def __init__(self, data):
 		self.data = data
-		self.name = data['name']
-		self.code = data['code']
 
-	def set_name(self):
-		return self.name
+	def name(self):
+		return self.data['name']
 
-	def set_code(self):
-		return self.code
+	def code(self):
+		return self.data['code']
 
-	def num_cards(self):
-		return len(self.data['cards'])
+	def gatherercode(self):
+		return self.data['gathererCode'] if 'gathererCode' in self.data else self.code()
 
-	def cards(self):
-		return self.data['cards']
-	
+	def oldcode(self):
+		return self.data['oldCode'] if 'oldCode' in self.data else self.code()
+
+	def magiccardsinfocode(self):
+		if 'magicCardsInfoCode' in self.data:
+			return self.data['magicCardsInfoCode']
+		return None
+
 	def releasedate(self):
 		return self.data['releaseDate']
 
-	def has_booster(self):
-		return 'booster' in self.data
+	def border(self):
+		return self.data['border']
+	
+	def settype(self):
+		return self.data['type']
+
+	def block(self):
+		return self.data['block']
+
+	def onlineOnly(self):
+		return 'onlineOnly' in self.data
 
 	def booster(self):
-		if not self.has_booster():
-			return None
-		return self.data['booster']
+		returns self.data['booster'] if 'booster' in self.data else None
+
+	def cards(self):
+		return self.data['cards']
+
+	def size(self):
+		return len(self.cards())

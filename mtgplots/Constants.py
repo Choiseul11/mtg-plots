@@ -1,13 +1,13 @@
 '''
-Card Constants
+Card Data Constants
 '''
 COLORS = ['White', 'Blue', 'Black', 'Red', 'Green']
 COLOR_MAP = {'White': 'W', 'Blue':'U', 'Black':'B', 'Red':'R', 'Green':'G'}
 RARITIES = ['Common', 'Uncommon', 'Rare', 'Mythic Rare', 'Basic', 'Special']
-colorid_possible = ['C', 'W','U','B','R','G',\
-					'WU','WB','WR','WG','UB','UR','UG','BR','BG','RG',\
-					'WUB','WUR','WUG','WBR','WBG','WRG','UBR','UBG','URG','BRG',\
-					'WUBR','WUBG','WURG','WBRG','UBRG',\
+COLORID_POSSIBLE = ['C', 'W', 'U', 'B', 'R', 'G', 
+					'WU', 'WB', 'WR', 'WG', 'UB', 'UR', 'UG', 'BR', 'BG', 'RG', 
+					'WUB', 'WUR', 'WUG', 'WBR', 'WBG', 'WRG', 'UBR', 'UBG', 'URG', 'BRG', 
+					'WUBR', 'WUBG', 'WURG', 'WBRG', 'UBRG', 
 					'WUBRG']
 
 '''
@@ -25,24 +25,20 @@ EXPANSION_SETS = ['ARN', 'ATQ', 'LEG', 'DRK', 'FEM', 'HML', 'ICE', 'ALL',
 				  'CON', 'ARB', 'ZEN', 'WWK', 'ROE', 'SOM', 'MBS', 'NPH',
 				  'ISD', 'DKA', 'AVR', 'RTR', 'GTC', 'DGM', 'THS', 'BNG',
 				  'JOU', 'KTK', 'FRF', 'DTK', 'BFZ', 'OGW', 'SOI', 'EMN',
-				  'KLD']
+				  'KLD', 'AER', 'AKH', 'HOU']
 
-INTRO_SETS = ['POR', 'PO2', 'PTK', 'S99', 'S00', 'ITP', 'RQS', 'W16']
+STARTER_SETS = ['POR', 'PO2', 'PTK', 'S99', 'S00', 'ITP', 'RQS', 'W16', 'W17']
 
-COMPILATION_SETS = ['PCA', 'CHR', 'ATH', 'BRB', 'BTD', 'DKM', 'DPA', 'ARC',
-					'MMA', 'MM2', 'EMA', 'EVG', 'DD2', 'DDC', 'DDD', 'DDE',
-					'DDF', 'DDG', 'DDH', 'DDI', 'DDJ', 'DDK', 'DDL', 'DDM',
-					'DDN', 'DD3', 'DDO', 'DDP', 'DDQ', 'DDR', 'DRB', 'V09',
-					'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'H09', 'PD2',
-					'PD3', 'DD3_GVL', 'DD3_DVD', 'DD3_EVG', 'DD3_JVC', 'CPK',
-					'EXP']
+COMPILATION_SETS = ['CHR', 'MED', 'ME2', 'ME3', 'ME4', 'DPA', 'ARC', 
+					'MMA', 'VMA', 'TPR', 'MM2', 'EXP', 'PZ1', 'W16', 
+					'EMA', 'PZ2', 'MM3', 'W17', 'MPS']
 
-NONSTANDARD_SETS = ['HOP', 'PC2', 'CMD', 'CMA', 'C13', 'C14', 'C15', 'C16',
+NONSTANDARD_SETS = ['HOP', 'PC2', 'CMD', 'C13', 'C14', 'C15', 'C16',
 					'CNS', 'CN2', 'CM1']
 
 NONTOURNAMENT_SETS = ['CED', 'CEI', 'UGL', 'UNH']
 
-ONLINE_SETS = ['MED', 'ME2', 'ME3', 'ME4', 'VMA', 'TPR']
+ONLINE_SETS = ['MED', 'ME2', 'ME3', 'TD0', 'ME4', 'VMA', 'TPR', 'PZ1', 'PZ2']
 
 PROMO_SETS = ['p2HG', 'pWOR', 'pWOS', 'pLGM', 'pPRE', 'pPRO', 'pREL', 'pMPR',
 			  'pCMP', 'pARL', 'pGTW', 'pWPN', 'pDRC', 'pJGP', 'pMEI', 'p15A',
@@ -50,3 +46,32 @@ PROMO_SETS = ['p2HG', 'pWOR', 'pWOS', 'pLGM', 'pPRE', 'pPRO', 'pREL', 'pMPR',
 			  'pSUM', 'pWCQ', 'pHHO', 'pPOD', 'FRF_UGIN', 'pCEL']
 
 MISC_SETS = ['VAN','CST','MD1','MGB']
+
+BOX_SETS = ['ATH', 'BRB', 'BTD', 'DKM', 'EVG', 'DRB', 'DD2' , 'DDC', 'TD0', 'V09',
+			'DDD', 'DDE', 'H09', 'DPA', 'V10', 'DDF', 'DDG', 'TD0', 'PD2', 
+			'CMD', 'V11', 'DDH', 'PD3', 'DDI', 'V12', 'DDJ', 'CM1', 'TD2',
+			'DDK', 'V13', 'DDL', 'C13', 'MD1', 'V14', 'DDN', 'C14', 'DD3',
+			'DDO', 'V15', 'DDP', 'C15', 'DDQ', 'V16', 'DDR', 'C16', 'PCA',
+			'DDS', 'CMA', 'PCA']
+
+SUPPLEMENTAL_SETS = ['HOP', 'ARC', 'PC2', 'CNS', 'CN2', 'E01']
+
+PLANECHASE_SETS = ['HOP', 'PC2', 'PCA']
+
+COMMANDER_SETS = ['TD0', 'CMD', 'CM1', 'C13', 'C14', 'C15', 'C16', 'CMA']
+
+ARCHENEMY_SETS = ['ARC', 'E01']
+
+CONSPIRACY_SETS = ['CNS', 'CN2']
+
+WELCOMEDECK_SETS = ['W16', 'W17']
+
+UN_SETS = ['UGL', 'UNH']
+
+DUELDECK_SETS = ['EVG', 'DD2', 'DDC', 'DDD', 'DDE', 'DDF', 'DDG', 'DDH', 'DDI',
+				 'DDJ', 'TD2', 'DDK', 'DDL', 'DDM', 'DDN', 'DD3', 'DDO', 'DDP',
+				 'DDQ', 'DDR', 'DDS']
+
+FTV_SETS = ['DRB', 'V09', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16']
+
+MASTERS_SETS = ['MED', 'ME2', 'ME3', 'ME4', 'MMA', 'VMA', 'TPR', 'MM2', 'EMA', 'MM3']

@@ -4,12 +4,6 @@ class CardData():
 
 	def __init__(self, data):
 		self.data = data
-		self.Name = data['name']
-		if 'text' in data:
-			self.text = data['text']
-		else:
-			self.text = None
-
 		
 	'''
 	Card Data functions
@@ -28,32 +22,27 @@ class CardData():
 				kw[keyword] = self.text.count(keyword)
 		return kw
 
-	def has_text(self):
-		return not self.text == None
+	#def has_text(self):
+	#	return not self.text == None
 
-	def get_text(self, clean=False):
-		if not self.has_text():
-			return ""
-		if clean:
-			return self.clean_text(self.text)
+	def text(self, clean=False):
+		if 'text' not in self.data:
+			return None
 		else:
-			return self.text
+			return self.clean_text(self.data['text']) if clean else self.data['text']
 
 	def wordcount(self, clean=False):
-		if not self.has_text():
-			return 0
-		return len(self.get_text(clean=clean))
+		text = self.text()
+		return len(self.text(clean=clean)) if text else 0
 
 	def name(self):
-		return self.Name
+		return self.data['name']
 
-	def has_color(self):
-		if 'colors' in self.data:
-			return True
-		return False
+	def colored(self):
+		return 'colors' in self.data
 
 	def colors(self):
-		if not self.has_color():
+		if not self.colored():
 			return 'C'
 		color_map = {'White':'W', 'Blue':'U','Black':'B','Red':'R','Green':'G'}
 		color_symbols = []
@@ -61,90 +50,62 @@ class CardData():
 			color_symbols.append(color_map[color])
 		return ''.join(color_symbols)
 
-	def has_coloridentity(self):
-		if 'colorIdentity' in self.data:
-			return True
-		return False
+	def coloredidentity(self):
+		return 'colorIdentity' in self.data
 
 	def coloridentity(self):
-		if not self.has_coloridentity():
-			return 'C'
-		return ''.join(self.data['colorIdentity'])
+		return ''.join(self.data['colorIdentity']) if self.coloredidentity() else 'C'
 
 	def types(self):
-		return ' '.join(self.data['types'])
+		return self.data['types']
 
-	def full_type(self):
+	def typesstring(self):
+		return ' '.join(self.types())
+
+	def fulltype(self):
 		ft = self.data['type']
-		full_type = ft.replace('\u2014','&mdash;').replace('\u00E6','&#230;')
+		full_type = remove_unicode_characters(ft)
 		return full_type
 
 	def rarity(self):
 		return self.data['rarity']
 
 	def cmc(self):
-		if 'cmc' in self.data:
-			return self.data['cmc']
-		return 0
+		return self.data['cmc'] if 'cmc' in self.data else 0
 
-	def mana_cost(self):
-		if 'manaCost' in self.data:
-			return self.data['manaCost']
-		return 0
+	def manacost(self):
+		return self.data['manaCost'] if 'manaCost' in self.data else None
 
-	def modern_text(self):
-		return self.data['text'].replace(u'\u2014','&mdash;').replace(u'\u00E6','&#230;')
+	def moderntext(self):
+		text = self.text()
+		if text:
+			return remove_unicode_characters(text)
+		return None
 
-	def original_text(self):
+	def originaltext(self):
 		if 'originalText' in self.data:
-			return self.data['originalText'].replace(u'\2014', '&mdash;').replace(u'\u00E6', '&#230;')
+			return remove_unicode_characters(self.data['originalText'])
 		return self.modern_text()
 
 	def artist(self):
 		return self.data['artist']
 
 	def reserved(self):
-		if 'reserved' in self.data:
-			return self.data['reserved']
-		return False 
+		return 'reserved' in self.data
 
-	def has_flavor(self):
+	def flavortext(self):
 		if 'flavor' in self.data:
-			return True
-		return False
-
-	def flavor_text(self):
-		return self.data['flavor'].replace(u'\u2014','&mdash;').replace(u'\u00E6','&#230;')
-
-	def has_power(self):
-		if 'power' in self.data:
-			return True
-		return False
+			return remove_unicode_characters(self.data['flavor'])
+		return None
 
 	def power(self):
-		if self.has_power():
-			return self.data['power']
-		return None
-
-	def has_toughness(self):
-		if 'toughness' in self.data:
-			return True
-		return False
-
-	def has_loyalty(self):
-		if 'loyalty' in self.data:
-			return True
-		return False
-
-	def loyalty(self):
-		if self.has_loyalty():
-			return self.data['loyalty']
-		return None
+		return self.data['power'] if 'power' in self.data else None
 
 	def toughness(self):
-		if self.has_toughness():
-			return self.data['toughness']
-		return None
+		return self.data['toughness'] if 'toughness' in self.data else None
+
+	def loyalty(self):
+		return self.data['loyalty'] if 'loyalty' in self.data else None
 
 	def legality(self):
 		legalities = {}
@@ -154,12 +115,12 @@ class CardData():
 			legalities[format] = legal
 		return legalities
 
-	def original_type(self):
+	def originaltype(self):
 		if 'originalType' in self.data:
 			ot = self.data['originalType']
 			original_type = ot.replace('\u2014','&mdash;').replace('\u00E6','&#230;')
 			return original_type
-		return self.full_type()
+		return self.fulltype()
 
 	'''
 	Text cleanup functions
