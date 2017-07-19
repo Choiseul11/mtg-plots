@@ -20,3 +20,11 @@ class SetData():
 	
 	def releasedate(self):
 		return self.data['releaseDate']
+
+	def has_booster(self):
+		return 'booster' in self.data
+
+	def booster(self):
+		if not self.has_booster():
+			return None
+		return self.data['booster']

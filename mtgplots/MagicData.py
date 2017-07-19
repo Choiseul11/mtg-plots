@@ -8,7 +8,7 @@ any other entity that this data may belong to.
 import json, re
 from itertools import permutations
 import operator
-#import matplotlib.pyplot as plt
+import Constants
 
 class MagicData():
 	'''
@@ -47,14 +47,11 @@ class MagicData():
 		keywords = [keyword.strip() for keyword in keywords]
 		self.keywords = keywords
 
-	def load_sets(self, path):
+	def load_sets(self, s):
 		'''
-		Reads in new-line separated sets file and converts to list with newlines stripped
-		Params: String path - path to sets file
-		'''
-		with open(path, 'r') as f:
-			st = f.readlines()
-		self.sets += [s.strip() for s in st]
+		Params: List s - List of set codes to load
+		'''	
+		self.sets += s
 
 	'''
 	Total Dataset Functions
