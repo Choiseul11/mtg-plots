@@ -56,8 +56,18 @@ class CardData():
 	def coloridentity(self):
 		return ''.join(self.data['colorIdentity']) if self.coloredidentity() else 'C'
 
-	def types(self):
+	def typeslist(self):
 		return self.data['types']
+
+	def types(self):
+		return ' '.join(self.typeslist())
+
+	def subtypeslist(self):
+		return self.data['subtypes'] if 'subtypes' in self.data else None
+
+	def subtypes(self):
+		subtypes = self.subtypeslist()
+		return ' '.join(subtypes) if subtypes else None
 
 	def typesstring(self):
 		return ' '.join(self.types())
@@ -66,6 +76,9 @@ class CardData():
 		ft = self.data['type']
 		full_type = remove_unicode_characters(ft)
 		return full_type
+
+	def supertypes(self):
+		return self.data['supertypes'] if 'supertypes' in self.data else None
 
 	def rarity(self):
 		return self.data['rarity']
@@ -79,23 +92,23 @@ class CardData():
 	def moderntext(self):
 		text = self.text()
 		if text:
-			return remove_unicode_characters(text)
+			return self.remove_unicode_characters(text)
 		return None
 
 	def originaltext(self):
 		if 'originalText' in self.data:
-			return remove_unicode_characters(self.data['originalText'])
+			return self.remove_unicode_characters(self.data['originalText'])
 		return self.modern_text()
 
 	def artist(self):
-		return self.data['artist']
+		return self.remove_unicode_characters(self.data['artist'])
 
 	def reserved(self):
 		return 'reserved' in self.data
 
 	def flavortext(self):
 		if 'flavor' in self.data:
-			return remove_unicode_characters(self.data['flavor'])
+			return self.remove_unicode_characters(self.data['flavor'])
 		return None
 
 	def power(self):
@@ -133,12 +146,13 @@ class CardData():
 		text_no_reminder = re.sub('\(.*\)', '', text)
 		return text_no_reminder
 
-	def remove_unicode_chars(self, text):
+	def remove_unicode_characters(self, text):
 		'''
 		Removes all relevant unicode characters, in this case long dash, bullet and ae/AE
 		Params: String text - text to be changed
 		'''
 		clean_text = re.sub(ur'[\u2014\u2022\u00E6\u00C6]','',text)
+		clean_text = re.sub(ur'\xe4', 'a', clean_text)
 		return clean_text
 
 	def remove_numeric_chars(self, text):
@@ -155,6 +169,6 @@ class CardData():
 		Params: String text - text to be changed
 		'''
 		clean_text = self.remove_reminder_text(
-						self.remove_unicode_chars(
+						self.remove_unicode_characterss(
 							self.remove_numeric_chars(text)))
 		return clean_text.lower()

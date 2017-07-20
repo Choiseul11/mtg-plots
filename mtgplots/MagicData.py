@@ -15,18 +15,17 @@ class MagicData():
 	data = None
 	sets = []
 
-	def __init__(self, path):
-		self.datapath = path
-
+	def __init__(self):
+		return
 	'''
 	Data loading functions
 	'''
-	def loaddata(self):
+	def loaddata(self, path):
 		'''
 		Reads in JSON data file containing card/set data 
 		Params: String path - path to data file
 		'''
-
+		self.datapath = path
 		with open(self.datapath,'r') as f:
 			try:
 				self.data = json.load(f)

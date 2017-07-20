@@ -37,7 +37,7 @@ class SetData():
 		return 'onlineOnly' in self.data
 
 	def booster(self):
-		returns self.data['booster'] if 'booster' in self.data else None
+		return self.data['booster'] if 'booster' in self.data else None
 
 	def cards(self):
 		return self.data['cards']
