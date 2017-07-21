@@ -1,2 +1,4 @@
 *.pyc
 *.json
+update-all-data.py
+lands-history.py

@@ -32,11 +32,14 @@ class MagicData():
 			except Exception as e:
 				self.data = None
 
-	def load_sets(self, s):
+	def loadsets(self, s):
 		'''
 		Params: List s - List of set codes to load
 		'''	
 		self.sets += s
+
+	def unloadsets(self):
+		self.sets = []
 
 	'''
 	Total Dataset Functions

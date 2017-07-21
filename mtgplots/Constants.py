@@ -58,7 +58,7 @@ SUPPLEMENTAL_SETS = ['HOP', 'ARC', 'PC2', 'CNS', 'CN2', 'E01']
 
 PLANECHASE_SETS = ['HOP', 'PC2', 'PCA']
 
-COMMANDER_SETS = ['TD0', 'CMD', 'CM1', 'C13', 'C14', 'C15', 'C16', 'CMA']
+COMMANDER_SETS = ['CMD', 'CM1', 'C13', 'C14', 'C15', 'C16', 'CMA']
 
 ARCHENEMY_SETS = ['ARC', 'E01']
 
@@ -75,3 +75,27 @@ DUELDECK_SETS = ['EVG', 'DD2', 'DDC', 'DDD', 'DDE', 'DDF', 'DDG', 'DDH', 'DDI',
 FTV_SETS = ['DRB', 'V09', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16']
 
 MASTERS_SETS = ['MED', 'ME2', 'ME3', 'ME4', 'MMA', 'VMA', 'TPR', 'MM2', 'EMA', 'MM3']
+
+ALL_SETS = ['LEA', 'LEB', 'CED', 'CEI', '2ED', 'ARN', 'pDRC', 'ATQ', '3ED', 
+			'LEG', 'DRK', 'FEM', 'pLGM', 'pMEI', '4ED', 'ICE', 'CHR', 'HML', 
+			'ALL', 'RQS', 'pARL', 'pCEL', 'MIR', 'MGB', 'ITP', 'VIS', '5ED', 
+			'VAN', 'POR', 'pPOD', 'WTH', 'pPRE', 'TMP', 'STH', 'PO2', 'pJGP', 
+			'EXO', 'UGL', 'pALP', 'USG', 'ATH', 'ULG', '6ED', 'PTK', 'UDS', 
+			'S99', 'pGRU', 'pWOR', 'pWOS', 'MMQ', 'BRB', 'pSUS', 'pFNM', 'pELP', 
+			'NMS', 'S00', 'PCY', 'BTD', 'INV', 'PLS', '7ED', 'pMPR', 'APC', 
+			'ODY', 'DKM', 'TOR', 'JUD', 'ONS', 'LGN', 'SCG', 'pREL', '8ED', 
+			'MRD', 'DST', '5DN', 'CHK', 'UNH', 'BOK', 'SOK', '9ED', 'RAV', 
+			'p2HG', 'pGTW', 'GPT', 'pCMP', 'DIS', 'CSP', 'CST', 'TSB', 'TSP', 
+			'pHHO', 'PLC', 'pPRO', 'pGPX', 'FUT', '10E', 'pMGD', 'pSUM', 'MED', 
+			'LRW', 'EVG', 'MOR', 'pLPA', 'p15A', 'SHM', 'EVE', 'DRB', 'ME2', 
+			'pWPN', 'ALA', 'DD2', 'CON', 'DDC', 'ARB', 'M10', 'V09', 'HOP', 
+			'ME3', 'ZEN', 'DDD', 'H09', 'WWK', 'DDE', 'ROE', 'DPA', 'ARC', 'M11', 
+			'V10', 'DDF', 'SOM', 'PD2', 'ME4', 'MBS', 'DDG', 'NPH', 'CMD', 'M12', 
+			'V11', 'DDH', 'ISD', 'PD3', 'DKA', 'DDI', 'AVR', 'PC2', 'M13', 'V12', 
+			'DDJ', 'RTR', 'CM1', 'GTC', 'DDK', 'DDS', 'pWCQ', 'DGM', 'MMA', 'M14', 
+			'V13', 'DDL', 'THS', 'C13', 'BNG', 'DDM', 'JOU', 'MD1', 'CNS', 'VMA', 
+			'CPK', 'M15', 'V14', 'DDN', 'KTK', 'C14', 'DD3_GVL', 'DD3_DVD', 'DD3_EVG', 
+			'DD3_JVC', 'FRF_UGIN', 'FRF', 'DDO', 'DTK', 'TPR', 'MM2', 'ORI', 'V15', 
+			'DDP', 'EXP', 'BFZ', 'C15', 'OGW', 'DDQ', 'W16', 'SOI', 'EMA', 'EMN', 
+			'V16', 'CN2', 'DDR', 'MPS', 'KLD', 'C16', 'PCA', 'AER', 'MM3', 'W17', 
+			'MPS_AKH', 'AKH', 'CMA', 'E01', 'HOU']
