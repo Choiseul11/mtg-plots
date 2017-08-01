@@ -34,9 +34,9 @@ def main():
     print '\n\n'
 
     md.unloadsets()
-    sets = Constants.CORE_SETS + Constants.EXPANSION_SETS
     md.loadsets(sets)
     cards.clear()
+    EXCLUDES = ['Plains', 'Island', 'Swamp', 'Mountain', 'Forest']
     for s in md.loadedsets():
         sd = SetData.SetData(md.oneset(s))
         for c in sd.cards():
@@ -51,7 +51,7 @@ def main():
     cards_sorted.sort(key=lambda x: x[1], reverse=True)
 
     print 'STANDARD ONLY'
-    for i in cards_sorted[0:175]:
+    for i in cards_sorted[0:50]:
         print i[0] + ' : ' + str(i[1])
 
 if __name__ == "__main__":
