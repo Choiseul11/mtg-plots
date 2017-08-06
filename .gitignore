@@ -2,3 +2,5 @@
 *.json
 update-all-data.py
 lands-history.py
+*_breakdown.json
+.vscode/

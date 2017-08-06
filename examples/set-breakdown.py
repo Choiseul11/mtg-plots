@@ -96,12 +96,13 @@ def get_creature_types(cards):
 	type_dict = {}
 	for card in cards:
 		cd = CardData.CardData(card)
-		subtypes = cd.subtypes()
+		subtypes = cd.subtypeslist()
 		if subtypes and 'Creature' in cd.types():
-			if subtypes in type_dict:
-				type_dict[subtypes] += 1
-			else:
-				type_dict[subtypes] = 1
+			for s in subtypes:
+				if s in type_dict:
+					type_dict[s] += 1
+				else:
+					type_dict[s] = 1
 	return type_dict
 
 def get_artifact_types(cards):
@@ -127,6 +128,14 @@ def get_artists(cards):
 			artist_dict[artist] = 1
 	return artist_dict
 
+def unique_cards(cards):
+	unique = set()
+	for card in cards:
+		cd = CardData.CardData(card)
+		name = cd.name()
+		unique.add(name)
+	return len(unique)
+
 def main():
 	s = sys.argv[1]
 	md = MagicData.MagicData()
@@ -146,20 +155,24 @@ def main():
 	out['artifactTypes'] = get_artifact_types(cards)
 	out['artists'] = get_artists(cards)
 	out['totalCards'] = sd.size()
+	out['uniqueCards'] = unique_cards(cards)
 	print 'Total Cards: ' + str(out['totalCards'])
+	print 'Unique Cards: ' + str(out['uniqueCards'])
 	print 'Legendary Cards: ' + str(out['legendaries'])
 	print 'Nonbasic Lands: ' + str(out['nonbasicLands'])
 	print '\n\n'
 
+	'''
 	for item in [x for x in out if x not in ['legendaries', 'nonbasicLands', 'totalCards']]:
 		print item.upper()
 		print "---"
 		for i in out[item]:
-			print str(i) + ' : ' + str(out[item][i])
+			print(str(i).encode('utf-8') + ' : '.encode('utf-8') + str(out[item][i]).encode('utf-8'))
 		print "\n\n"
+	'''
 
-	#with open('../data/'+s+'/breakdown.json','w') as f:
-	#	json.dump(out, f)
+	with open(s+'_breakdown.json','w') as f:
+		json.dump(out, f, sort_keys=True, indent=4)
 
 if __name__ == "__main__":
 	main()
