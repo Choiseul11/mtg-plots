@@ -31,7 +31,7 @@ class SetData():
 		return self.data['type']
 
 	def block(self):
-		return self.data['block']
+		return self.data['block'] if 'block' in self.data else None
 
 	def onlineOnly(self):
 		return 'onlineOnly' in self.data

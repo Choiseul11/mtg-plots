@@ -70,7 +70,7 @@ class CardData():
 		return ' '.join(subtypes) if subtypes else None
 
 	def typesstring(self):
-		return ' '.join(self.types())
+		return ' '.join(self.typeslist())
 
 	def fulltype(self):
 		ft = self.data['type']
@@ -153,6 +153,7 @@ class CardData():
 		'''
 		clean_text = re.sub(ur'[\u2014\u2022\u00E6\u00C6]','',text)
 		clean_text = re.sub(ur'\xe4', 'a', clean_text)
+		clean_text = re.sub(ur'\xf5', 'o', clean_text)
 		return clean_text
 
 	def remove_numeric_chars(self, text):
