@@ -2,174 +2,258 @@ import re
 
 class CardData():
 
-	def __init__(self, data):
-		self.data = data
-		
-	'''
-	Card Data functions
-	'''
-	def count_keywords(self, keywords, clean=False):
-		'''
-		Counts all occurrences of each keyword in keywords within text
-		Params: String text - text to be counted from
-				List keywords - list of keywords to count
-		'''
-		kw = {}
-		for keyword in keywords:
-			# the 'meld' requirement here is a hack to avoid Midnight Scavengers
-			# making 'Scavenge' show up as an EMN keyword'
-			if keyword in self.text and keyword not in self.name and 'meld' not in self.text:
-				kw[keyword] = self.text.count(keyword)
-		return kw
+    def __init__(self, data):
+        self.data = data
+        
+    '''
+    Card Data functions - JSON getters
+    '''
 
-	#def has_text(self):
-	#	return not self.text == None
+    def id(self):
+        return self.data['id']
 
-	def text(self, clean=False):
-		if 'text' not in self.data:
-			return None
-		else:
-			return self.clean_text(self.data['text']) if clean else self.data['text']
+    def layout(self):
+        return self.data['layout']
 
-	def wordcount(self, clean=False):
-		text = self.text()
-		return len(self.text(clean=clean)) if text else 0
+    def name(self):
+        return self.data['name']
 
-	def name(self):
-		return self.data['name']
+    def names(self):
+        if 'names' in self.data:
+            return self.data['names']
+        return [self.data['name']]
 
-	def colored(self):
-		return 'colors' in self.data
+    def manacost(self):
+        return self.data['manaCost'] if 'manaCost' in self.data else None
 
-	def colors(self):
-		if not self.colored():
-			return 'C'
-		color_map = {'White':'W', 'Blue':'U','Black':'B','Red':'R','Green':'G'}
-		color_symbols = []
-		for color in self.data['colors']:
-			color_symbols.append(color_map[color])
-		return ''.join(color_symbols)
+    def cmc(self):
+        return self.data['cmc'] if 'cmc' in self.data else 0
 
-	def coloredidentity(self):
-		return 'colorIdentity' in self.data
+    def colors(self):
+        return self.data['colors'] if 'colors' in self.data else None
 
-	def coloridentity(self):
-		return ''.join(self.data['colorIdentity']) if self.coloredidentity() else 'C'
+    def colorIdentity(self):
+        return self.data['colorIdentity'] if 'colorIdentity' in self.data else None
 
-	def typeslist(self):
-		return self.data['types']
+    #Name deviates from data field due to 'type' being reserved
+    def cardtype(self):
+        return self.data['type']
 
-	def types(self):
-		return ' '.join(self.typeslist())
+    def supertypes(self):
+        return self.data['supertypes'] if 'supertypes' in self.data else None
 
-	def subtypeslist(self):
-		return self.data['subtypes'] if 'subtypes' in self.data else None
+    def types(self):
+        return self.data['types']
 
-	def subtypes(self):
-		subtypes = self.subtypeslist()
-		return ' '.join(subtypes) if subtypes else None
+    def subtypes(self):
+        return self.data['subtypes'] if 'subtypes' in self.data else None
 
-	def typesstring(self):
-		return ' '.join(self.typeslist())
+    def rarity(self):
+        return self.data['rarity']
 
-	def fulltype(self):
-		ft = self.data['type']
-		full_type = remove_unicode_characters(ft)
-		return full_type
+    def text(self):
+        return self.data['text'] if 'text' in self.data else None
 
-	def supertypes(self):
-		return self.data['supertypes'] if 'supertypes' in self.data else None
+    def flavor(self):
+        return self.data['flavor'] if 'flavor' in self.data else None
 
-	def rarity(self):
-		return self.data['rarity']
+    def artist(self):
+        return self.data['artist']
 
-	def cmc(self):
-		return self.data['cmc'] if 'cmc' in self.data else 0
+    def number(self):
+        return self.data['number']
 
-	def manacost(self):
-		return self.data['manaCost'] if 'manaCost' in self.data else None
+    def power(self):
+        return self.data['power'] if 'power' in self.data else None
 
-	def moderntext(self):
-		text = self.text()
-		if text:
-			return self.remove_unicode_characters(text)
-		return None
+    def toughness(self):
+        return self.data['toughness'] if 'toughness' in self.data else None
 
-	def originaltext(self):
-		if 'originalText' in self.data:
-			return self.remove_unicode_characters(self.data['originalText'])
-		return self.modern_text()
+    def loyalty(self):
+        return self.data['loyalty'] if 'loyalty' in self.data else None
 
-	def artist(self):
-		return self.remove_unicode_characters(self.data['artist'])
+    def multiverseId(self):
+        return self.data['multiverseid'] if 'multiverseid' in self.data else None
 
-	def reserved(self):
-		return 'reserved' in self.data
+    def variations(self):
+        return self.data['variations'] if 'variations' in self.data else None
 
-	def flavortext(self):
-		if 'flavor' in self.data:
-			return self.remove_unicode_characters(self.data['flavor'])
-		return None
+    def imageName(self):
+        return self.data['imageName']
 
-	def power(self):
-		return self.data['power'] if 'power' in self.data else None
+    def watermark(self):
+        return self.data['watermark'] if 'watermark' in self.data else None
 
-	def toughness(self):
-		return self.data['toughness'] if 'toughness' in self.data else None
+    def border(self):
+        return self.data['border'] if 'border' in self.data else None
 
-	def loyalty(self):
-		return self.data['loyalty'] if 'loyalty' in self.data else None
+    def timeshifted(self):
+        return self.data['timeshifted'] if 'timeshifted' in self.data else None
 
-	def legality(self):
-		legalities = {}
-		for legality in self.data['legalities']:
-			format = legality['format']
-			legal = legality['legality']
-			legalities[format] = legal
-		return legalities
+    def hand(self):
+        return self.data['hand'] if 'hand' in self.data else None
 
-	def originaltype(self):
-		if 'originalType' in self.data:
-			ot = self.data['originalType']
-			original_type = ot.replace('\u2014','&mdash;').replace('\u00E6','&#230;')
-			return original_type
-		return self.fulltype()
+    def life(self):
+        return self.data['life'] if 'life' in self.data else None
 
-	'''
-	Text cleanup functions
-	'''
-	def remove_reminder_text(self, text):
-		'''
-		Removes all substrings that are enclosed by parentheses, including the parentheses
-		Params: String text - text to be changed
-		'''
-		text_no_reminder = re.sub('\(.*\)', '', text)
-		return text_no_reminder
+    def reserved(self):
+        return self.data['reserved'] if 'reserved' in self.data else None
 
-	def remove_unicode_characters(self, text):
-		'''
-		Removes all relevant unicode characters, in this case long dash, bullet and ae/AE
-		Params: String text - text to be changed
-		'''
-		clean_text = re.sub(ur'[\u2014\u2022\u00E6\u00C6]','',text)
-		clean_text = re.sub(ur'\xe4', 'a', clean_text)
-		clean_text = re.sub(ur'\xf5', 'o', clean_text)
-		return clean_text
+    def releaseDate(self):
+        return self.data['releaseDate'] if 'releaseDate' in self.data else None
 
-	def remove_numeric_chars(self, text):
-		'''
-		Removes all numeric chars (0-9) from text (i.e. the 1 in Modular 1)
-		Params: String text - text to be changed
-		'''
-		clean_text = re.sub(' \d+','',text)
-		return clean_text
+    def starter(self):
+        return self.data['starter'] if 'starter' in self.data else None
 
-	def clean_text(self, text):
-		'''
-		Invokes the above three text functions
-		Params: String text - text to be changed
-		'''
-		clean_text = self.remove_reminder_text(
-						self.remove_unicode_characterss(
-							self.remove_numeric_chars(text)))
-		return clean_text.lower()
+    def mciNumber(self):
+        return self.data['mciNumber']
+
+    def rulings(self):
+        return self.data['rulings'] if 'rulings' in self.data else None
+
+    def foreignNames(self):
+        return self.data['foreignNames'] if 'foreignNames' in self.data else None
+
+    def printings(self):
+        return self.data['printings']
+
+    def originalText(self):
+        return self.data['originalText'] if 'originalText' in self.data else None
+
+    def originalType(self):
+        return self.data['originalType'] if 'originalType' in self.data else None
+
+    def legalities(self):
+        return self.data['legalities']
+
+    def source(self):
+        return self.data['source'] if 'source' in self.data else None
+ 
+    '''
+    Additional data
+    '''
+
+
+    '''
+    Analytics functions
+    '''
+    def powerToughnessRatio(self):
+        if self.power() and self.toughness():
+            power = float(self.power())
+            toughness = float(self.toughness())
+            return power/toughness
+        return None
+
+    def toughnessPowerRatio(self):
+        if self.power() and self.toughness():
+            power = float(power())
+            toughness = float(toughness())
+            return toughness/power
+        return None
+    
+    def count_keywords(self, keywords, clean=False):
+        '''
+        Counts all occurrences of each keyword in keywords within text
+        Params: String text - text to be counted from
+                List keywords - list of keywords to count
+        '''
+        if not self.text():
+            return None
+        text = self.text()
+        kw = {}
+        for keyword in keywords:
+            # the 'meld' requirement here is a hack to avoid Midnight Scavengers
+            # making 'Scavenge' show up as an EMN keyword'
+            if keyword in text and keyword not in self.name() and 'meld' not in text:
+                kw[keyword] = text.count(keyword)
+        return kw
+
+    def cleanText(self):
+        text = self.text()
+        if not text:
+            return None
+        return self.clean_text(text)
+
+    def wordcount(self, clean=False):
+        text = self.text()
+        if clean:
+            return len(cleanText(text).split(' '))
+        return len(text.split(' '))
+
+    def colored(self):
+        if self.colored():
+            return True
+        return False
+
+    def coloredidentity(self):
+        if self.coloredidentity():
+            return True
+        return False
+
+    def colorLetters(self):
+        colors = self.colors()
+        if not colors:
+            return 'C'
+        color_map = {'White':'W', 'Blue':'U','Black':'B','Red':'R','Green':'G'}
+        color_symbols = []
+        for color in colors:
+            color_symbols.append(color_map[color])
+        return ''.join(color_symbols)
+
+    def coloridentity(self):
+        colorIdentity = self.coloridentity()
+        if not colorIdentity:
+            return 'C'
+        return ''.join(colorIdentity)
+
+    def typesString(self):
+        return ' '.join(self.types())
+
+    def subtypesString(self):
+        subtypes = self.subtypes()
+        if not subtypes:
+            return None
+        return ' '.join(subtypes)
+
+    def artist(self):
+        artist = self.artist()
+        return self.remove_unicode_characters(artist)
+
+    '''
+    Text cleanup functions
+    '''
+    def remove_reminder_text(self, text):
+        '''
+        Removes all substrings that are enclosed by parentheses, including the parentheses
+        Params: String text - text to be changed
+        '''
+        text_no_reminder = re.sub('\(.*\)', '', text)
+        return text_no_reminder
+
+    def remove_unicode_characters(self, text):
+        '''
+        Removes all relevant unicode characters, in this case long dash, bullet and ae/AE
+        Params: String text - text to be changed
+        '''
+        clean_text = re.sub(ur'[\u2014\u2022\u00E6\u00C6]','',text)
+        clean_text = re.sub(ur'\xe4', 'a', clean_text)
+        clean_text = re.sub(ur'\xf5', 'o', clean_text)
+        return clean_text
+
+    def remove_numeric_chars(self, text):
+        '''
+        Removes all numeric chars (0-9) from text (i.e. the 1 in Modular 1)
+        Params: String text - text to be changed
+        '''
+        clean_text = re.sub(' \d+','',text)
+        return clean_text
+
+    def clean_text(self, text):
+        '''
+        Invokes the above three text functions
+        Params: String text - text to be changed
+        '''
+        clean_text = self.remove_reminder_text(
+                        self.remove_unicode_characterss(
+                            self.remove_numeric_chars(text)))
+        return clean_text.lower()
